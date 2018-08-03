@@ -15,6 +15,7 @@ fi
 SCRIPT_DIR=$(cd $(dirname $0); pwd)
 LOG_DIR=$SCRIPT_DIR/log
 export LOG_DIR=$LOG_DIR
+echo "LOG_DIR: " $LOG_DIR
 
 # upload
 # docker run -it --rm google_cloud_storage python uploader.py
