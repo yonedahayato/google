@@ -1,0 +1,7 @@
+*.json
+*.log
+setting.py
+
+__pycache__/*
+download_file/*
+upload_file/*
