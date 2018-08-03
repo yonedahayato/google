@@ -1,0 +1,10 @@
+version: "3"
+services:
+  google_cloud_storage:
+    image: google_cloud_storage
+    environment:
+      LOG_DIR: log_dir
+    volumes:
+      - ${LOG_DIR}:/google_cloud_storage/log
+    ports:
+      - "8090:8090"
