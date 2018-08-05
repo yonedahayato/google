@@ -27,6 +27,25 @@ class UploadHander(tornado.web.RequestHandler):
 
         self.write("success\n")
 
+class DownloadHandler(tornado.web.RequestHandler):
+    def post(self):
+        msg = "[DownloadHandler:post]: {}"
+
+        try:
+            file_path = self.get_argument("file_path")
+            gcs = Google_Cloud_Storage()
+            gcs.download(file_path)
+        except Exception as e:
+            err_msg = msg.format("fail to download {}, {}".format(file_path, e))
+            logger.exception(err_msg)
+            logger.error(err_msg)
+            raise Exception(err_msg)
+        else:
+            sccs_msg = msg.format("success to download {}".format(file_path))
+            logger.info(sccs_msg)
+
+        self.write("success\n")
+
 class TestHandler(tornado.web.RequestHandler):
     def get(self):
         logger.info("[TestHandler:get]: test message")
@@ -37,7 +56,8 @@ class Server:
         self.application = tornado.web.Application(
             [
                 (r"/upload", UploadHander),
-                (r"/test", TestHandler)
+                (r"/test", TestHandler),
+                (r"/download", DownloadHandler)
             ]
         )
         self.port = port
