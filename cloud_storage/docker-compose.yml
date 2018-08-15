@@ -4,8 +4,10 @@ services:
     image: google_cloud_storage
     environment:
       LOG_DIR: log_dir
+      UPLOAD_DIR: upload_dir
     volumes:
       - ${LOG_DIR}:/google_cloud_storage/log
       - ${UPLOAD_DIR}:/google_cloud_storage/upload_file
     ports:
-      - "8090:8090"
+      # - "8090:8090"
+      - "${SERVER_PORT}:${SERVER_PORT}"

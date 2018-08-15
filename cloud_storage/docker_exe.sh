@@ -22,6 +22,8 @@ export UPLOAD_DIR=$UPLOAD_DIR
 echo "LOG_DIR: " $LOG_DIR
 echo "UPLOAD_DIR: " $UPLOAD_DIR
 
+export SERVER_PORT=$SERVER_PORT
+
 # upload
 # docker run -it --rm google_cloud_storage python uploader.py
 docker-compose up
