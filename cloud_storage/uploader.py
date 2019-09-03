@@ -2,21 +2,13 @@ from google.cloud import storage
 import os
 
 import log
-import setting
-
-# google api key setting
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=setting.api_key_json_path
-
 # log
 logger = log.logger
 
-# upload file path
-upload_file_path = setting.upload_file_path
-
-class Google_Cloud_Storage:
-    def __init__(self):
+class Uploader:
+    def __init__(self, bucket_name):
         self.client = storage.Client()
-        self.bucket_name = setting.bucket_name
+        self.bucket_name = bucket_name
         self.bucket = self.client.get_bucket(self.bucket_name)
 
     def logging_info(self, msg):
@@ -62,5 +54,12 @@ class Google_Cloud_Storage:
         print("test")
 
 if __name__ == "__main__":
-    gcs = Google_Cloud_Storage()
-    gcs.upload("upload_file/test.txt")
+    import setting
+    # upload file path
+    upload_file_path = setting.upload_file_path
+
+    # google api key setting
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=setting.api_key_json_path
+
+    uploader = Uploader(bucket_name=setting.bucket_name)
+    uploader.upload("upload_file/test.txt")
