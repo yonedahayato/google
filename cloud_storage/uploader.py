@@ -11,29 +11,19 @@ class Uploader:
         self.bucket_name = bucket_name
         self.bucket = self.client.get_bucket(self.bucket_name)
 
-    def logging_info(self, msg):
-        print(msg)
-        logger.info(msg)
-
-    def logging_error(self, msg):
-        logger.exception(msg)
-        logger.error(msg)
-
-    def upload(self, file_path):
+    def upload(self, local_path, gcp_path):
         msg = "[Google_Cloud_Storage:update]: {}"
 
         try:
-            file_name = os.path.basename(file_path)
-            dir_name = file_path.split("/")[-2]
-            blob = self.bucket.blob("{}/{}".format(dir_name, file_name))
-            blob.upload_from_filename("{}/{}".format(upload_file_path, file_name))
+            blob = self.bucket.blob(gcp_path)
+            blob.upload_from_filename(local_path)
         except Exception as e:
-            err_msg = msg.format("fail to upload {}, {}".format(file_path, e))
-            self.logging_error(err_msg)
+            err_msg = msg.format("fail to upload {}, {}".format(local_path, e))
+            logger.exception(err_msg)
             raise Exception(err_msg)
         else:
-            sccs_msg = msg.format("success to update {}".format(file_path))
-            self.logging_info(sccs_msg)
+            sccs_msg = msg.format("success to update {}".format(local_path))
+            logger.info(sccs_msg)
 
     def download(self, file_path):
         msg = "[Google_Cloud_Storage:download]: {}"
@@ -44,7 +34,7 @@ class Uploader:
             blob.download_to_filename("{}/{}".format(upload_file_path, file_name))
         except Exception as e:
             err_msg = msg.format("fail to download {}, {}".format(file_path, e))
-            self.logging_error(err_msg)
+            logger.exception(err_msg)
             raise Exception(err_msg)
         else:
             sccs_msg = msg.format("success to download {}".format(file_path))
@@ -56,10 +46,10 @@ class Uploader:
 if __name__ == "__main__":
     import setting
     # upload file path
-    upload_file_path = setting.upload_file_path
+    upload_path = setting.upload_file_path
 
     # google api key setting
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=setting.api_key_json_path
 
     uploader = Uploader(bucket_name=setting.bucket_name)
-    uploader.upload("upload_file/test.txt")
+    uploader.upload("upload_file/test.txt", upload_path)

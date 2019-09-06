@@ -8,7 +8,7 @@ def test_upload():
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=setting.api_key_json_path
 
     uploader = Uploader(bucket_name="yoneda-tmp")
-    uploader.upload("./test.txt")
+    uploader.upload("test.txt", "test.txt")
 
 
 if __name__ == "__main__":
