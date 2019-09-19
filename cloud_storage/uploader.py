@@ -11,22 +11,20 @@ class Uploader:
         self.bucket_name = bucket_name
         self.bucket = self.client.get_bucket(self.bucket_name)
 
-    def upload(self, file_path, public=False):
+    def upload(self, local_path, gcp_path, public=False):
         msg = "[Google_Cloud_Storage:update]: {}"
 
         try:
-            file_name = os.path.basename(file_path)
-            dir_name = file_path.split("/")[-2]
-            blob = self.bucket.blob("{}/{}".format(dir_name, file_name))
-
+            blob = self.bucket.blob(gcp_path)
+            blob.upload_from_filename(local_path)
             if public:
                 blob.make_public()
 
-            blob.upload_from_filename("{}/{}".format(upload_file_path, file_name))
         except Exception as e:
             err_msg = msg.format("fail to upload {}, {}".format(local_path, e))
             logger.exception(err_msg)
             raise Exception(err_msg)
+
         else:
             sccs_msg = msg.format("success to update {}".format(local_path))
             logger.info(sccs_msg)
