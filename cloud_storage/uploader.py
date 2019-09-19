@@ -16,6 +16,8 @@ class Uploader:
 
         try:
             blob = self.bucket.blob(gcp_path)
+            if public:
+                blob.make_public()
             blob.upload_from_filename(local_path)
         except Exception as e:
             err_msg = msg.format("fail to upload {}, {}".format(local_path, e))
