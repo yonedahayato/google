@@ -16,13 +16,15 @@ class Uploader:
 
         try:
             blob = self.bucket.blob(gcp_path)
+            blob.upload_from_filename(local_path)
             if public:
                 blob.make_public()
-            blob.upload_from_filename(local_path)
+
         except Exception as e:
             err_msg = msg.format("fail to upload {}, {}".format(local_path, e))
             logger.exception(err_msg)
             raise Exception(err_msg)
+
         else:
             sccs_msg = msg.format("success to update {}".format(local_path))
             logger.info(sccs_msg)
