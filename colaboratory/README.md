@@ -7,3 +7,5 @@
 |---|---|
 |schedule.py|セッションを切らさないよう「常時稼働させる」方向で90分のセッション切れを回避する。```colab上で起動想定```|
 |exec_gcolab.py|ローカルPC上にてSelenumでGoogle Driveにログインして、Google Colabratoryのファイルを開いて一番上のセルの実行ボタンをクリックする|
+
+# 環境準備
