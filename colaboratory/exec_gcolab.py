@@ -4,7 +4,7 @@ import time
 
 from setting import (
     COLAB_URL,
-    GOOGLE_PASS
+    GOOGLE_PASS,
     GOOGLE_ID,
 )
 
