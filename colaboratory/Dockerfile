@@ -6,14 +6,25 @@ COPY . .
 RUN apt-get update
 RUN apt-get install -y wget
 
-RUN apt-get install -y libappindicator1
-RUN apt-get install -f
+RUN apt-get install -y libappindicator1 \
+    fonts-liberation \
+    libappindicator3-1 \
+    libasound2 \
+    libatk-bridge2.0-0 \
+    libatspi2.0-0 \
+    libgtk-3-0 \
+    libnspr4 \
+    libnss3 \
+    libx11-xcb1 \
+    libxss1 \
+    libxtst6 \
+    lsb-release \
+    xdg-utils
+
+RUN apt-get -f install
 
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 RUN dpkg -i google-chrome-stable_current_amd64.deb
-
-RUN apt update
-RUN apt -f install -y
 
 # selenium
 RUN apt install -y python3-selenium
