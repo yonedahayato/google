@@ -28,6 +28,7 @@ RUN dpkg -i google-chrome-stable_current_amd64.deb
 
 # selenium
 RUN apt install -y python3-selenium
+RUN pip install -r requirements.txt
 
 # chrome driver
 RUN apt install -y unzip
