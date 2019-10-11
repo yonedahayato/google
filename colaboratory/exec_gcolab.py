@@ -12,8 +12,11 @@ from setting import (
 
 chromeOptions = webdriver.ChromeOptions()
 chromeOptions.add_argument("--remote-debugging-port=9222")
+chromeOptions.add_argument("--headless")
 
-driver = webdriver.Chrome()
+chromeOptions.add_argument('--no-sandbox')
+
+driver = webdriver.Chrome(chrome_options=chromeOptions)
 url = COLAB_URL
 
 login_id = GOOGLE_ID
