@@ -10,6 +10,9 @@ from setting import (
     GOOGLE_ID,
 )
 
+chromeOptions = webdriver.ChromeOptions()
+chromeOptions.add_argument("--remote-debugging-port=9222")
+
 driver = webdriver.Chrome()
 url = COLAB_URL
 
