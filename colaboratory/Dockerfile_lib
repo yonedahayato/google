@@ -1,6 +1,5 @@
 FROM python:3.6-slim
 WORKDIR /home/colaboratory
-COPY . .
 
 # chrome install
 RUN apt-get update
@@ -26,7 +25,5 @@ RUN apt-get -f install
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 RUN dpkg -i google-chrome-stable_current_amd64.deb
 
-# selenium
+# python library
 RUN pip install -r requirements.txt
-
-# CMD python3 exec_gcolab.py
