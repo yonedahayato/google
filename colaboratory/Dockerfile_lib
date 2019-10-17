@@ -1,5 +1,6 @@
 FROM python:3.6-slim
 WORKDIR /home/colaboratory
+COPY . .
 
 # chrome install
 RUN apt-get update
