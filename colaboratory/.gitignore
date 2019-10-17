@@ -1,1 +1,4 @@
 setting.py
+*.log
+*.html
+*.png
