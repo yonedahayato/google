@@ -16,48 +16,59 @@ from setting import (
 
 logzero.logfile('./log/exec_gcolab.log')
 
-# setting
-userdata_dir = "./userdata"
-
-chromeOptions = webdriver.ChromeOptions()
-chromeOptions.add_argument("--remote-debugging-port=9222")
-chromeOptions.add_argument("--headless")
-chromeOptions.add_argument('--lang=ja')
-chromeOptions.add_argument('--no-sandbox')
-chromeOptions.add_argument('--user-data-dir=' + userdata_dir)
-
-driver = webdriver.Chrome(chrome_options=chromeOptions)
 url = COLAB_URL
-
 login_id = GOOGLE_ID
 pas = GOOGLE_PASS
 
+def set_driver():
+    # setting
+    userdata_dir = "./userdata"
+
+    chromeOptions = webdriver.ChromeOptions()
+    chromeOptions.add_argument("--remote-debugging-port=9222")
+    chromeOptions.add_argument("--headless")
+    chromeOptions.add_argument('--lang=ja')
+    chromeOptions.add_argument('--no-sandbox')
+    chromeOptions.add_argument('--user-data-dir=' + userdata_dir)
+
+    driver = webdriver.Chrome(chrome_options=chromeOptions)
+    return driver
+
+def login_method1(driver):
+    # ログイン画面:userid
+    driver.find_element_by_xpath("//*[@id='identifierId']").send_keys(login_id)
+    driver.find_element_by_class_name('CwaK9').click()
+    time.sleep(2)
+    # ログイン画面:pwd
+    driver.find_element_by_xpath("//*[@id='password']/div[1]/div/div[1]/input").send_keys(pas)
+    driver.find_element_by_xpath("//*[@id='passwordNext']").click()
+    return driver
+
+def login_method2(dirver):
+    # ログイン画面:userid
+    driver.find_element_by_xpath("//*[@id='Email']").send_keys(login_id)
+    driver.find_element_by_xpath("//*[@id='next']").click()
+    time.sleep(2)
+    # ログイン画面:pwd
+    driver.find_element_by_xpath("//*[@id='Passwd']").send_keys(pas)
+    driver.find_element_by_xpath("//*[@id='signIn']").click()
+    return driver
+
 def main():
     # ページを開く
+    driver = set_driver()
     driver.get(url)
     logger.info("ページを開きました。: {}".format(url))
     time.sleep(2)
 
     try:
         logger.info("手順1を試みます。")
-        # ログイン画面:userid
-        driver.find_element_by_xpath("//*[@id='identifierId']").send_keys(login_id)
-        driver.find_element_by_class_name('CwaK9').click()
-        time.sleep(2)
-        # ログイン画面:pwd
-        driver.find_element_by_xpath("//*[@id='password']/div[1]/div/div[1]/input").send_keys(pas)
-        driver.find_element_by_xpath("//*[@id='passwordNext']").click()
+        driver = login_method1(driver)
     except:
         logger.info("手順1が失敗しました。")
         try:
             logger.info("手順2を試みます。")
-            # ログイン画面:userid
-            driver.find_element_by_xpath("//*[@id='Email']").send_keys(login_id)
-            driver.find_element_by_xpath("//*[@id='next']").click()
-            time.sleep(2)
-            # ログイン画面:pwd
-            driver.find_element_by_xpath("//*[@id='Passwd']").send_keys(pas)
-            driver.find_element_by_xpath("//*[@id='signIn']").click()
+            driver = login_method2(driver)
         except:
             logger.info("手順2が失敗しました。")
             save_file_for_debug(driver)
