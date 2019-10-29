@@ -25,12 +25,13 @@ def set_driver():
     userdata_dir = "./userdata"
 
     chromeOptions = webdriver.ChromeOptions()
-    chromeOptions.add_argument("--remote-debugging-port=9222")
+    # chromeOptions.add_argument("--remote-debugging-port=9222")
     chromeOptions.add_argument("--headless")
     chromeOptions.add_argument('--lang=ja')
     chromeOptions.add_argument('--no-sandbox')
     chromeOptions.add_argument('--user-data-dir=' + userdata_dir)
-
+    chromeOptions.add_argument('--disable-gpu')
+    chromeOptions.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36')
     driver = webdriver.Chrome(chrome_options=chromeOptions)
     return driver
 
@@ -44,7 +45,7 @@ def login_method1(driver):
     driver.find_element_by_xpath("//*[@id='passwordNext']").click()
     return driver
 
-def login_method2(dirver):
+def login_method2(driver):
     # ログイン画面:userid
     driver.find_element_by_xpath("//*[@id='Email']").send_keys(login_id)
     driver.find_element_by_xpath("//*[@id='next']").click()
@@ -69,9 +70,10 @@ def main():
         try:
             logger.info("手順2を試みます。")
             driver = login_method2(driver)
-        except:
+        except Exception as e:
             logger.info("手順2が失敗しました。")
             save_file_for_debug(driver)
+            logger.exception(e)
         else:
             logger.info("手順2が成功しました。")
     else:
