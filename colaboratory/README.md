@@ -9,3 +9,4 @@
 |exec_gcolab.py|ローカルPC上にてSelenumでGoogle Driveにログインして、Google Colabratoryのファイルを開いて一番上のセルの実行ボタンをクリックする|
 
 # 環境準備
+- Docker での環境を整えたかったが、エラーがでるためColbaの実行は外部APIにて実施する
