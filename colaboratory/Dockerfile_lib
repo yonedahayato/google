@@ -1,0 +1,31 @@
+# FROM python:3.6-slim
+FROM joyzoursky/python-chromedriver:3.6-selenium
+WORKDIR /home/colaboratory
+COPY . .
+
+# chrome install
+#RUN apt-get update
+#RUN apt-get install -y wget
+
+# RUN apt-get install -y libappindicator1 \
+#     fonts-liberation \
+#     libappindicator3-1 \
+#     libasound2 \
+#     libatk-bridge2.0-0 \
+#     libatspi2.0-0 \
+#     libgtk-3-0 \
+#     libnspr4 \
+#     libnss3 \
+#     libx11-xcb1 \
+#     libxss1 \
+#     libxtst6 \
+#     lsb-release \
+#     xdg-utils
+
+# RUN apt-get -f install
+
+#RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+#RUN dpkg -i google-chrome-stable_current_amd64.deb
+
+# python library
+RUN pip install -r requirements.txt

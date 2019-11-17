@@ -1,0 +1,3 @@
+COLAB_URL = ""
+GOOGLE_PASS = ""
+GOOGLE_ID = ""
