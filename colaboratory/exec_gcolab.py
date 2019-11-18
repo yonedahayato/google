@@ -8,11 +8,15 @@ import time
 # library setting
 import chromedriver_binary
 
-from setting import (
-    COLAB_URL,
-    GOOGLE_PASS,
-    GOOGLE_ID,
-)
+try:
+    from setting import (
+        COLAB_URL,
+        GOOGLE_PASS,
+        GOOGLE_ID,
+    )
+except:
+    # google cloud functions用
+    print("can not find setting file.")
 
 logzero.logfile('./log/exec_gcolab.log')
 
