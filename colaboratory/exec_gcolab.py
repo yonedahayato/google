@@ -1,6 +1,7 @@
 # library
 import logzero
 from logzero import logger
+import os
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
@@ -18,7 +19,7 @@ except:
     # google cloud functions用
     print("can not find setting file.")
 
-if os.environ["CLOUD_FUNCTIONS"] == "True":
+if os.environ["CLOUD_FUNCTIONS"] != "True":
     logzero.logfile('./log/exec_gcolab.log')
 
 def set_driver():
