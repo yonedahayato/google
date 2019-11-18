@@ -19,7 +19,7 @@ except:
     # google cloud functions用
     print("can not find setting file.")
 
-if os.environ["CLOUD_FUNCTIONS"] != "True":
+if os.environ.get("CLOUD_FUNCTIONS") is None:
     logzero.logfile('./log/exec_gcolab.log')
 
 def set_driver():
