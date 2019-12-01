@@ -3,3 +3,5 @@ setting.py
 *.html
 *.png
 userdata
+
+__pycache__
