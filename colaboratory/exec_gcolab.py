@@ -1,9 +1,15 @@
 # library
 import logzero
 from logzero import logger
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
+import os
 import time
+
+if os.environ.get("CLOUD_FUNCTIONS") is None:
+    from selenium import webdriver
+    from selenium.webdriver.common.keys import Keys
+else:
+    from selenium_helper import webdriver
+    from selenium_helper.webdriver.common.keys import Keys
 
 # library setting
 import chromedriver_binary
@@ -21,14 +27,34 @@ def set_driver():
     userdata_dir = "./userdata"
 
     chromeOptions = webdriver.ChromeOptions()
-    chromeOptions.add_argument("--remote-debugging-port=9222")
-    chromeOptions.add_argument("--headless")
-    chromeOptions.add_argument('--lang=ja')
-    chromeOptions.add_argument('--no-sandbox')
-    # chromeOptions.add_argument('--user-data-dir=' + userdata_dir)
-    chromeOptions.add_argument('--disable-gpu')
-    # chromeOptions.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36')
-    driver = webdriver.Chrome(chrome_options=chromeOptions)
+
+    if os.environ.get("CLOUD_FUNCTIONS") is None:
+        chromeOptions.add_argument("--remote-debugging-port=9222")
+        chromeOptions.add_argument("--headless")
+        chromeOptions.add_argument('--lang=ja')
+        chromeOptions.add_argument('--no-sandbox')
+        chromeOptions.add_argument('--disable-gpu')
+
+        # chromeOptions.add_argument('--user-data-dir=' + userdata_dir)
+        # chromeOptions.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36')
+        driver = webdriver.Chrome(chrome_options=chromeOptions)
+
+    else:
+        chromeOptions.add_argument('--headless')
+        chromeOptions.add_argument('--disable-gpu')
+        chromeOptions.add_argument('--window-size=1280x1696')
+        chromeOptions.add_argument('--no-sandbox')
+        chromeOptions.add_argument('--hide-scrollbars')
+        chromeOptions.add_argument('--enable-logging')
+        chromeOptions.add_argument('--log-level=0')
+        chromeOptions.add_argument('--v=99')
+        chromeOptions.add_argument('--single-process')
+        chromeOptions.add_argument('--ignore-certificate-errors')
+        # chromeOptions.add_argument('user-agent='+UserAgent().random)
+
+        chromeOptions.binary_location = os.getcwd() + "/selenium_helper/headless-chromium"
+        driver = webdriver.Chrome(os.getcwd() + "/selenium_helper/chromedriver", chrome_options=chromeOptions)
+
     return driver
 
 def login_method1(driver, login_id, pas):
