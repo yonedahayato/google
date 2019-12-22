@@ -7,8 +7,10 @@
 |スクリプト名|概要|
 |---|---|
 |schedule.py|セッションを切らさないよう「常時稼働させる」方向で90分のセッション切れを回避する。```colab上で起動想定```|
-|exec_gcolab.py|ローカルPC上にてSeleniumでGoogle Driveにログインして、Google Colabratoryのファイルを開いて一番上のセルの実行ボタンをクリックする|
+|exec_gcolab.py|ローカルPC上にてSeleniumでGoogle Driveにログインして、Google Colaboratoryのファイルを開いて一番上のセルの実行ボタンをクリックする|
 |main.py|google cloud functions を使用して稼働させるためのスクリプト|
+|get_user_agent/|user agentの作成のためにスクリプト|
+|on_colab/|google Colaboratory上で動かすスクリプト|
 
 ## 設定
 |スクリプト名|概要|

@@ -2,6 +2,6 @@ setting.py
 *.log
 *.html
 *.png
-userdata
+get_user_agent/user-agent
 
 __pycache__
