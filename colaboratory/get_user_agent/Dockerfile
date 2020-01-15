@@ -1,16 +1,20 @@
-# FROM queeno/ubuntu-desktop
-FROM consol/ubuntu-xfce-vnc
-
+FROM dorowu/ubuntu-desktop-lxde-vnc:bionic
 USER root
 
+RUN apt update
 RUN apt-get update
 RUN apt-get install -y wget
 
-RUN sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub |  apt-key add -
-RUN apt-get update
-RUN apt-get install -y google-chrome-stable
+RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN dpkg -i google-chrome-stable_current_amd64.deb || \
+    (apt -f install -y && \
+    dpkg -i google-chrome-stable_current_amd64.deb)
 
-# CMD /usr/bin/vncserver :1 -geometry 1280x800 -depth 24 && tail -f /root/.vnc/*:1.log
-ENTRYPOINT ["/dockerstartup/vnc_startup.sh"]
-CMD ["--wait"]
+RUN apt -f install -y chromium-chromedriver
+# RUN cp -f /usr/lib/chromium-browser/chromedriver /usr/bin
+
+RUN apt install -y python3-pip
+RUN pip3 install selenium
+
+# user agent 準備
+ADD ./user-agent-20200107 /root/user-agent
